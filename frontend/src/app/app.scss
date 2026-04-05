@@ -1,0 +1,42 @@
+:host {
+	display: block;
+	min-height: 100dvh;
+}
+
+.app-shell {
+	min-height: 100dvh;
+	display: flex;
+	background: var(--bg-app);
+	overflow-x: hidden; /* avoid page-level horizontal scrolling */
+}
+
+app-sidebar {
+	flex: 0 0 250px;
+	min-height: 100dvh;
+}
+
+.app-main {
+	flex: 1;
+	padding: 2rem;
+	overflow: auto;
+}
+
+.empty-state {
+	max-width: 640px;
+	background: var(--task-card);
+	border: 1px solid var(--border-shadow);
+	border-radius: 1rem;
+	padding: 1.4rem 1.5rem;
+
+	h1 {
+		margin: 0 0 0.5rem;
+		font-size: 1.4rem;
+		color: #1f2937;
+	}
+
+	p {
+		margin: 0;
+		color: #6b7280;
+		line-height: 1.5;
+	}
+}

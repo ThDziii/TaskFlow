@@ -1,0 +1,346 @@
+// ── Sidebar ───────────────────────────────────────────────────────────────
+// CSS variables (--active-state, --task-card, --border-shadow, v.v.)
+// đã được định nghĩa trong styles.scss ở :root — dùng trực tiếp ở đây.
+:host {
+  display: block;
+  height: 100%;
+}
+
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--task-card);
+  border-right: 1px solid var(--border-shadow);
+  color: #6b7280;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  /* ensure children cannot visually overflow the sidebar's box */
+  overflow: hidden;
+}
+
+/* make all children use border-box so width:100% + padding won't overflow */
+.sidebar, .sidebar * {
+  box-sizing: border-box;
+}
+
+.top-content {
+  padding: 1.5rem 1rem 1.25rem;
+  overflow-y: auto;
+  overflow-x: hidden; /* prevent any horizontal scroll inside */
+}
+
+// ── Brand ─────────────────────────────────────────────────────────────────
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+
+  h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: #1f2937;
+    font-weight: 700;
+  }
+}
+
+.brand-logo {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.75rem;
+  display: grid;
+  place-items: center;
+  background: var(--active-state);
+  color: #fff;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+// ── Search ────────────────────────────────────────────────────────────────
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: color-mix(in srgb, var(--border-shadow) 50%, #fff);
+  border: 1px solid var(--border-shadow);
+  border-radius: 0.85rem;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1.25rem;
+
+  .icon {
+    font-size: 1rem;
+    color: #9ca3af;
+    line-height: 1;
+  }
+
+  input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #4b5563;
+    font-size: 0.9rem;
+    font-family: inherit;
+
+    &::placeholder {
+      color: #9ca3af;
+    }
+  }
+}
+
+// ── Menu ──────────────────────────────────────────────────────────────────
+.menu {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 1.4rem;
+}
+
+.menu-item {
+  border: 0;
+  text-decoration: none;
+  width: 100%;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.7rem 0.75rem;
+  color: #6b7280;
+  cursor: pointer;
+  background: transparent;
+  transition: background 0.15s, color 0.15s;
+  overflow: hidden; /* clip any child backgrounds */
+
+  .icon {
+    width: 1.2rem;
+    display: inline-block;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+
+  .item-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .badge {
+    margin-left: auto;
+    min-width: 1.15rem;
+    height: 1.15rem;
+    border-radius: 99px;
+    background: color-mix(in srgb, var(--active-state) 18%, white);
+    color: var(--active-state);
+    display: grid;
+    place-items: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0 0.3rem;
+  }
+
+  &:hover {
+    background: color-mix(in srgb, var(--border-shadow) 45%, white);
+    color: #374151;
+  }
+
+  &.active {
+    background: var(--active-state);
+    color: #fff;
+
+    .badge {
+      background: rgba(255, 255, 255, 0.22);
+      color: #fff;
+    }
+  }
+}
+
+// ── Projects ──────────────────────────────────────────────────────────────
+.projects {
+  margin-bottom: 1.35rem;
+
+  .section-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.6rem;
+
+    h2 {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.045em;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #9ca3af;
+    }
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.25rem;
+  }
+}
+
+.icon-button {
+  border: 0;
+  background: transparent;
+  color: #6b7280;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  line-height: 1;
+  transition: background 0.15s;
+
+  &:hover {
+    background: color-mix(in srgb, var(--border-shadow) 45%, white);
+  }
+}
+
+.project-item {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.4rem;
+  border-radius: 0.65rem;
+  color: #6b7280;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: inherit;
+
+  &:hover {
+    background: color-mix(in srgb, var(--border-shadow) 45%, white);
+  }
+
+  .dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 99px;
+    flex-shrink: 0;
+  }
+
+  .project-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #4b5563;
+    text-align: left;
+  }
+
+  .project-count {
+    margin-left: auto;
+    font-size: 0.82rem;
+    color: #6b7280;
+    font-weight: 600;
+  }
+}
+
+// ── New Task button ────────────────────────────────────────────────────────
+.new-task {
+  width: 100%;
+  border: 0;
+  border-radius: 0.8rem;
+  background: var(--active-state);
+  color: #fff;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.88;
+  }
+}
+
+// ── Sidebar Footer ────────────────────────────────────────────────────────
+.sidebar-footer {
+  border-top: 1px solid var(--border-shadow);
+  padding: 1rem;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: #4b5563;
+
+  .icon {
+    margin-left: auto;
+    font-size: 1rem;
+    color: #9ca3af;
+    line-height: 1;
+  }
+}
+
+.avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--active-state) 16%, white);
+  color: var(--active-state);
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  background-image: url('https://i.pravatar.cc/150?u=sarah');
+  background-size: cover;
+  background-position: center;
+}
+
+.user-meta {
+  display: grid;
+  gap: 0.1rem;
+
+  p {
+    margin: 0;
+  }
+
+  .name {
+    color: #374151;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .role {
+    color: #9ca3af;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+}
+
+.settings {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  border: 0;
+  border-radius: 0.65rem;
+  background: transparent;
+  color: #6b7280;
+  padding: 0.45rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+
+  &:hover {
+    background: color-mix(in srgb, var(--border-shadow) 45%, white);
+  }
+
+  .icon {
+    width: 1rem;
+    text-align: center;
+  }
+}

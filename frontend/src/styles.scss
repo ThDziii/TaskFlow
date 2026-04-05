@@ -1,1 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+/* Global Pink Theme for TaskFlow */
+
+// 1. Định nghĩa biến SCSS
+$color-active: #EC4899;      // Hot Pink (Hồng đậm cho nút active)
+$color-card: #FFFFFF;        // Trắng thuần cho Task Cards
+$color-priority-high: #BE123C; // Deep Red (Rose-700)
+$color-priority-medium: #FB7185; // Pink-orange (Rose-400)
+$color-priority-low: #9CA3AF;    // Pink-gray (Hồng xám)
+$color-border-shadow: #FCE7F3;   // Soft Pink (Pink-100)
+
+:root {
+  --active-state: #{$color-active};
+  --task-card: #{$color-card};
+  --priority-high: #{$color-priority-high};
+  --priority-medium: #{$color-priority-medium};
+  --priority-low: #{$color-priority-low};
+  --border-shadow: #{$color-border-shadow};
+  
+  // Nền hồng nhạt
+  --bg-app: #FFF1F2; 
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-app);
+  color: #1F2937; // Màu chữ xám đen 
+}
