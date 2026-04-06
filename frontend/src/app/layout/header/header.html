@@ -1,0 +1,56 @@
+<header class="app-header">
+  <div class="app-header__top">
+    <div class="app-header__intro">
+      <h1 class="app-header__title">{{ title }}</h1>
+      @if (subtitle) {
+        <p class="app-header__subtitle">{{ subtitle }}</p>
+      }
+    </div>
+    @if (showToolbarSlot) {
+      <div class="app-header__toolbar">
+        <ng-content select="[appHeaderToolbar]" />
+      </div>
+    }
+  </div>
+
+  @if (showBottomRow) {
+    <div class="app-header__bottom">
+      <div class="app-header__actions">
+        @if (showFilterSort) {
+          <p-button
+            type="button"
+            label="Filter"
+            icon="pi pi-filter"
+            size="small"
+            [outlined]="!filterActive"
+            [severity]="filterActive ? 'primary' : 'secondary'"
+            (onClick)="onFilterClick()"
+          />
+          <p-button
+            type="button"
+            label="Sort"
+            icon="pi pi-arrows-v"
+            size="small"
+            [outlined]="!sortActive"
+            [severity]="sortActive ? 'primary' : 'secondary'"
+            (onClick)="onSortClick()"
+          />
+        }
+      </div>
+      @if (taskTotal != null) {
+        <div class="app-header__stats" aria-live="polite">
+          <span class="app-header__stat">
+            <strong>{{ taskTotal }}</strong> tasks
+          </span>
+          @if (taskInProgress != null) {
+            <span class="app-header__stat-sep" aria-hidden="true"></span>
+            <span class="app-header__stat">
+              <strong class="app-header__stat--progress">{{ taskInProgress }}</strong>
+              in progress
+            </span>
+          }
+        </div>
+      }
+    </div>
+  }
+</header>

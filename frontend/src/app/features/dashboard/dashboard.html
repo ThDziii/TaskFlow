@@ -1,0 +1,53 @@
+<app-header
+  title="Website Redesign"
+  subtitle="Track and manage all tasks for the redesign project"
+  [taskTotal]="totalTaskCount"
+  [taskInProgress]="inProgressTaskCount"
+  [filterActive]="isFilterActive"
+  (filterActiveChange)="isFilterActive = $event"
+  [sortActive]="isSortActive"
+  (sortActiveChange)="isSortActive = $event">
+</app-header>
+
+<div class="dashboard__body">
+  <div class="kanban" cdkDropListGroup aria-label="Task board">
+    @for (col of columns; track col.id) {
+      <section class="kanban__column">
+        <header class="kanban__column-head">
+          <div class="kanban__column-title-row">
+            <span
+              class="kanban__dot"
+              [class.kanban__dot--pink]="col.dot === 'pink'"
+              [class.kanban__dot--green]="col.dot === 'green'"
+              aria-hidden="true"></span>
+            <h2 class="kanban__column-title">{{ col.title }}</h2>
+            <span class="kanban__count">{{ col.tasks.length }}</span>
+          </div>
+          <button type="button" class="kanban__add" [attr.aria-label]="'Add task to ' + col.title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M12 5v14M5 12h14" stroke-linecap="round" />
+            </svg>
+          </button>
+        </header>
+
+        <div
+          class="kanban__list"
+          cdkDropList
+          [cdkDropListData]="col.tasks"
+          (cdkDropListDropped)="onTaskDrop($event)">
+          @for (task of col.tasks; track task.dueDate + task.title) {
+            <div class="kanban__card-wrap" cdkDrag>
+              <app-task-card
+                [priority]="task.priority"
+                [title]="task.title"
+                [description]="task.description"
+                [tags]="task.tags"
+                [dueDate]="task.dueDate"
+              />
+            </div>
+          }
+        </div>
+      </section>
+    }
+  </div>
+</div>

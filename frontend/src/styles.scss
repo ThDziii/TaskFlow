@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 /* Global Pink Theme for TaskFlow */
 
+@import 'primeicons/primeicons.css';
+
 // 1. Định nghĩa biến SCSS
 $color-active: #EC4899;      // Hot Pink (Hồng đậm cho nút active)
 $color-card: #FFFFFF;        // Trắng thuần cho Task Cards
@@ -21,9 +23,20 @@ $color-border-shadow: #FCE7F3;   // Soft Pink (Pink-100)
   --bg-app: #FFF1F2; 
 }
 
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   background-color: var(--bg-app);
   color: #1F2937; // Màu chữ xám đen 
+}
+
+app-root {
+  display: block;
+  height: 100%;
 }

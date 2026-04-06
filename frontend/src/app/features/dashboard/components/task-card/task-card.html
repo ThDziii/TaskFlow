@@ -1,0 +1,78 @@
+<article class="task-card">
+  <div class="task-card__header">
+    <span
+      class="task-card__priority"
+      [class.task-card__priority--high]="priority === 'high'"
+      [class.task-card__priority--medium]="priority === 'medium'"
+      [class.task-card__priority--low]="priority === 'low'">
+      {{ priorityLabel }}
+    </span>
+
+    <div class="task-card__menu" #menuRoot>
+      <button
+        type="button"
+        class="task-card__more"
+        (click)="toggleMenu($event)"
+        [attr.aria-expanded]="menuOpen"
+        aria-haspopup="menu"
+        aria-label="Task options">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <circle cx="5" cy="12" r="2" />
+          <circle cx="12" cy="12" r="2" />
+          <circle cx="19" cy="12" r="2" />
+        </svg>
+      </button>
+
+      @if (menuOpen) {
+        <div class="task-card__dropdown" role="menu">
+          <button type="button" class="task-card__menu-item" role="menuitem" (click)="onEdit()">
+            Edit Task
+          </button>
+          <button type="button" class="task-card__menu-item" role="menuitem" (click)="onMove()">
+            Move to…
+          </button>
+          <button
+            type="button"
+            class="task-card__menu-item task-card__menu-item--danger"
+            role="menuitem"
+            (click)="onDelete()">
+            Delete
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+
+  <h2 class="task-card__title">{{ title }}</h2>
+  <p class="task-card__description">{{ description }}</p>
+
+  @if (tags.length) {
+    <ul class="task-card__tags">
+      @for (tag of tags; track tag) {
+        <li class="task-card__tag">{{ tag }}</li>
+      }
+    </ul>
+  }
+
+  @if (dueDate) {
+    <div class="task-card__due">
+      <svg
+        class="task-card__due-icon"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+      </svg>
+      <span class="task-card__due-text">{{ dueDate }}</span>
+    </div>
+  }
+</article>
