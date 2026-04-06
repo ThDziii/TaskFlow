@@ -60,3 +60,8 @@ typings/
 *.swp
 *.swo
 *~
+
+# ── Backend (tuỳ chọn) ─────────────────────────────────
+# Mặc định KHÔNG ignore cả `backend/`: chỉ ignore `backend/node_modules` nhờ rule `node_modules/`
+# ở trên. Muốn không đưa **toàn bộ** thư mục backend lên Git, bỏ dấu # dòng sau:
+# /backend/
