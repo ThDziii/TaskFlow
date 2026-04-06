@@ -1,84 +1,57 @@
-import { createRequire } from 'module';const require = createRequire(import.meta.url);
-import {
-  EVENT_MANAGER_PLUGINS,
-  EventManagerPlugin
-} from "./chunk-3MGI45X7.js";
 import {
   PlatformLocation,
   XhrFactory,
-  getDOM,
   parseCookieValue
-} from "./chunk-EBMP5QM6.js";
+} from "./chunk-I4IPFPSQ.js";
 import {
   APP_BOOTSTRAP_LISTENER,
   ApplicationRef,
-  Console,
   DOCUMENT,
   DestroyRef,
-  ENVIRONMENT_INITIALIZER,
   EnvironmentInjector,
-  IS_ENABLED_BLOCKING_INITIAL_NAVIGATION,
   Inject,
   Injectable,
   InjectionToken,
   Injector,
   NgModule,
   NgZone,
-  Optional,
+  Observable,
   PendingTasks,
   ResourceImpl,
   RuntimeError,
-  SecurityContext,
   TracingService,
   TransferState,
-  Version,
-  XSS_SECURITY_URL,
-  _global,
-  _sanitizeHtml,
-  _sanitizeUrl,
-  allowSanitizationBypassAndThrow,
   assertInInjectionContext,
-  bypassSanitizationTrustHtml,
-  bypassSanitizationTrustResourceUrl,
-  bypassSanitizationTrustScript,
-  bypassSanitizationTrustStyle,
-  bypassSanitizationTrustUrl,
   computed,
+  concatMap,
   encapsulateResourceError,
+  filter,
+  finalize,
   formatRuntimeError,
-  forwardRef,
   inject,
   linkedSignal,
   makeEnvironmentProviders,
   makeStateKey,
+  map,
+  of,
   performanceMarkFeature,
-  provideStabilityDebugging,
-  require_cjs,
-  require_operators,
   runInInjectionContext,
   setClassMetadata,
   signal,
+  switchMap,
   truncateMiddle,
-  unwrapSafeValue,
-  withDomHydration,
-  withEventReplay,
-  withI18nSupport,
-  withIncrementalHydration,
   ɵɵdefineInjectable,
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-3X3WARFH.js";
+} from "./chunk-JXSAXOE4.js";
 import {
   __objRest,
   __spreadProps,
-  __spreadValues,
-  __toESM
-} from "./chunk-6DU2HRTW.js";
+  __spreadValues
+} from "./chunk-GOMI4DH3.js";
 
 // node_modules/@angular/common/fesm2022/_module-chunk.mjs
-var import_operators = __toESM(require_operators(), 1);
-var import_rxjs = __toESM(require_cjs(), 1);
 var HttpHeaders = class _HttpHeaders {
   headers;
   normalizedNames = /* @__PURE__ */ new Map();
@@ -251,6 +224,12 @@ function assertValidHeaders(headers) {
     }
   }
 }
+var HttpContextToken = class {
+  defaultValue;
+  constructor(defaultValue) {
+    this.defaultValue = defaultValue;
+  }
+};
 var HttpContext = class {
   map = /* @__PURE__ */ new Map();
   set(token, value) {
@@ -819,7 +798,7 @@ var FetchBackend = class _FetchBackend {
   ngZone = inject(NgZone);
   destroyRef = inject(DestroyRef);
   handle(request) {
-    return new import_rxjs.Observable((observer) => {
+    return new Observable((observer) => {
       const aborter = new AbortController();
       this.doRequest(request, aborter.signal, observer).then(noop, (error) => observer.error(new HttpErrorResponse({
         error
@@ -1110,9 +1089,9 @@ var HttpXhrBackend = class _HttpXhrBackend {
     }
     ngDevMode && validateXhrCompatibility(req);
     const xhrFactory = this.xhrFactory;
-    const source = xhrFactory.ɵloadImpl ? (0, import_rxjs.from)(xhrFactory.ɵloadImpl()) : (0, import_rxjs.of)(null);
-    return source.pipe((0, import_operators.switchMap)(() => {
-      return new import_rxjs.Observable((observer) => {
+    const source = false ? from(xhrFactory.ɵloadImpl()) : of(null);
+    return source.pipe(switchMap(() => {
+      return new Observable((observer) => {
         const xhr = xhrFactory.build();
         xhr.open(req.method, req.urlWithParams);
         if (req.withCredentials) {
@@ -1340,7 +1319,7 @@ function legacyInterceptorFnFactory() {
     const contributeToStability = inject(REQUESTS_CONTRIBUTE_TO_STABILITY);
     if (contributeToStability) {
       const removeTask = pendingTasks.add();
-      return chain(req, handler).pipe((0, import_operators.finalize)(removeTask));
+      return chain(req, handler).pipe(finalize(removeTask));
     } else {
       return chain(req, handler);
     }
@@ -1385,7 +1364,7 @@ var HttpInterceptorHandler = class _HttpInterceptorHandler {
     this.injector = injector;
     if ((typeof ngDevMode === "undefined" || ngDevMode) && !fetchBackendWarningDisplayed) {
       const isTestingBackend = this.backend.isTestingBackend;
-      if (!(this.backend instanceof FetchBackend) && !isTestingBackend) {
+      if (false) {
         fetchBackendWarningDisplayed = true;
         injector.get(Console).warn(formatRuntimeError(2801, "Angular detected that `HttpClient` is not configured to use `fetch` APIs. It's strongly recommended to enable `fetch` for applications that use Server-Side Rendering for better performance and compatibility. To enable `fetch`, add the `withFetch()` to the `provideHttpClient()` call at the root of the application."));
       }
@@ -1398,7 +1377,7 @@ var HttpInterceptorHandler = class _HttpInterceptorHandler {
     }
     if (this.contributeToStability) {
       const removeTask = this.pendingTasks.add();
-      return this.chain(initialRequest, (downstreamRequest) => this.backend.handle(downstreamRequest)).pipe((0, import_operators.finalize)(removeTask));
+      return this.chain(initialRequest, (downstreamRequest) => this.backend.handle(downstreamRequest)).pipe(finalize(removeTask));
     } else {
       return this.chain(initialRequest, (downstreamRequest) => this.backend.handle(downstreamRequest));
     }
@@ -1520,30 +1499,30 @@ var HttpClient = class _HttpClient {
         timeout: options.timeout
       });
     }
-    const events$ = (0, import_rxjs.of)(req).pipe((0, import_operators.concatMap)((req2) => this.handler.handle(req2)));
+    const events$ = of(req).pipe(concatMap((req2) => this.handler.handle(req2)));
     if (first instanceof HttpRequest || options.observe === "events") {
       return events$;
     }
-    const res$ = events$.pipe((0, import_operators.filter)((event) => event instanceof HttpResponse));
+    const res$ = events$.pipe(filter((event) => event instanceof HttpResponse));
     switch (options.observe || "body") {
       case "body":
         switch (req.responseType) {
           case "arraybuffer":
-            return res$.pipe((0, import_operators.map)((res) => {
+            return res$.pipe(map((res) => {
               if (res.body !== null && !(res.body instanceof ArrayBuffer)) {
                 throw new RuntimeError(2806, ngDevMode && "Response is not an ArrayBuffer.");
               }
               return res.body;
             }));
           case "blob":
-            return res$.pipe((0, import_operators.map)((res) => {
+            return res$.pipe(map((res) => {
               if (res.body !== null && !(res.body instanceof Blob)) {
                 throw new RuntimeError(2807, ngDevMode && "Response is not a Blob.");
               }
               return res.body;
             }));
           case "text":
-            return res$.pipe((0, import_operators.map)((res) => {
+            return res$.pipe(map((res) => {
               if (res.body !== null && typeof res.body !== "string") {
                 throw new RuntimeError(2808, ngDevMode && "Response is not a string.");
               }
@@ -1551,7 +1530,7 @@ var HttpClient = class _HttpClient {
             }));
           case "json":
           default:
-            return res$.pipe((0, import_operators.map)((res) => res.body));
+            return res$.pipe(map((res) => res.body));
         }
       case "response":
         return res$;
@@ -1640,7 +1619,7 @@ var JsonpClientBackend = class _JsonpClientBackend {
     if (req.headers.keys().length > 0) {
       throw new RuntimeError(2812, ngDevMode && JSONP_ERR_HEADERS_NOT_SUPPORTED);
     }
-    return new import_rxjs.Observable((observer) => {
+    return new Observable((observer) => {
       const callback = this.nextCallback();
       const url = req.urlWithParams.replace(/=JSONP_CALLBACK(&|$)/, `=${callback}$1`);
       const node = this.document.createElement("script");
@@ -1774,7 +1753,7 @@ var HttpXsrfCookieExtractor = class _HttpXsrfCookieExtractor {
   lastToken = null;
   parseCount = 0;
   getToken() {
-    if (true) {
+    if (false) {
       return null;
     }
     const cookieString = this.doc.cookie || "";
@@ -1917,6 +1896,15 @@ function provideHttpClient(...features) {
   }
   return makeEnvironmentProviders(providers);
 }
+function withInterceptors(interceptorFns) {
+  return makeHttpFeature(HttpFeatureKind.Interceptors, interceptorFns.map((interceptorFn) => {
+    return {
+      provide: HTTP_INTERCEPTOR_FNS,
+      useValue: interceptorFn,
+      multi: true
+    };
+  }));
+}
 var LEGACY_INTERCEPTOR_FN = new InjectionToken(typeof ngDevMode !== "undefined" && ngDevMode ? "LEGACY_INTERCEPTOR_FN" : "");
 function withInterceptorsFromDi() {
   return makeHttpFeature(HttpFeatureKind.LegacyInterceptors, [{
@@ -1961,6 +1949,30 @@ function withJsonpSupport() {
     provide: HTTP_INTERCEPTOR_FNS,
     useValue: jsonpInterceptorFn,
     multi: true
+  }]);
+}
+function withRequestsMadeViaParent() {
+  return makeHttpFeature(HttpFeatureKind.RequestsMadeViaParent, [{
+    provide: HttpBackend,
+    useFactory: () => {
+      const handlerFromParent = inject(HttpHandler, {
+        skipSelf: true,
+        optional: true
+      });
+      if (ngDevMode && handlerFromParent === null) {
+        throw new Error("withRequestsMadeViaParent() can only be used when the parent injector also configures HttpClient");
+      }
+      return handlerFromParent;
+    }
+  }]);
+}
+function withFetch() {
+  return makeHttpFeature(HttpFeatureKind.Fetch, [FetchBackend, {
+    provide: FETCH_BACKEND,
+    useExisting: FetchBackend
+  }, {
+    provide: HttpBackend,
+    useExisting: FetchBackend
   }]);
 }
 var HttpClientXsrfModule = class _HttpClientXsrfModule {
@@ -2060,8 +2072,6 @@ var HttpClientJsonpModule = class _HttpClientJsonpModule {
 })();
 
 // node_modules/@angular/common/fesm2022/http.mjs
-var import_rxjs2 = __toESM(require_cjs(), 1);
-var import_operators2 = __toESM(require_operators(), 1);
 var HTTP_TRANSFER_CACHE_ORIGIN_MAP = new InjectionToken(typeof ngDevMode !== "undefined" && ngDevMode ? "HTTP_TRANSFER_CACHE_ORIGIN_MAP" : "");
 var BODY = "b";
 var HEADERS = "h";
@@ -2103,10 +2113,10 @@ function retrieveStateFromCache(req, options, transferState, originMap) {
   if (!shouldCacheRequest(req, options)) {
     return null;
   }
-  if (false) {
+  if (originMap) {
     throw new RuntimeError(2803, ngDevMode && "Angular detected that the `HTTP_TRANSFER_CACHE_ORIGIN_MAP` token is configured and present in the client side code. Please ensure that this token is only provided in the server code of the application.");
   }
-  const requestUrl = originMap ? mapRequestOriginUrl(req.url, originMap) : req.url;
+  const requestUrl = false ? mapRequestOriginUrl(req.url, originMap) : req.url;
   const storeKey = makeCacheKey(req, requestUrl);
   const response = transferState.get(storeKey, null);
   const headersToInclude = getHeadersToInclude(options, requestOptions);
@@ -2150,20 +2160,20 @@ function transferCacheInterceptorFn(req, next) {
   });
   const cachedResponse = retrieveStateFromCache(req, options, transferState, originMap);
   if (cachedResponse) {
-    return (0, import_rxjs2.of)(cachedResponse);
+    return of(cachedResponse);
   }
   const {
     transferCache: requestOptions
   } = req;
   const headersToInclude = getHeadersToInclude(options, requestOptions);
-  const requestUrl = originMap ? mapRequestOriginUrl(req.url, originMap) : req.url;
+  const requestUrl = false ? mapRequestOriginUrl(req.url, originMap) : req.url;
   const storeKey = makeCacheKey(req, requestUrl);
   if (!shouldCacheRequest(req, options)) {
     return next(req);
   }
   const event$ = next(req);
-  if (true) {
-    return event$.pipe((0, import_operators2.tap)((event) => {
+  if (false) {
+    return event$.pipe(tap((event) => {
       if (event instanceof HttpResponse) {
         transferState.set(storeKey, {
           [BODY]: req.responseType === "arraybuffer" || req.responseType === "blob" ? toBase64(event.body) : event.body,
@@ -2180,19 +2190,6 @@ function transferCacheInterceptorFn(req, next) {
 }
 function hasAuthHeaders(req) {
   return req.headers.has("authorization") || req.headers.has("proxy-authorization");
-}
-function getFilteredHeaders(headers, includeHeaders) {
-  if (!includeHeaders) {
-    return {};
-  }
-  const headersMap = {};
-  for (const key of includeHeaders) {
-    const values = headers.getAll(key);
-    if (values !== null) {
-      headersMap[key] = values;
-    }
-  }
-  return headersMap;
 }
 function sortAndConcatParams(params) {
   return [...params.keys()].sort().map((k) => `${k}=${params.getAll(k)}`).join("&");
@@ -2221,16 +2218,6 @@ function generateHash(value) {
   }
   hash += 2147483647 + 1;
   return hash.toString();
-}
-function toBase64(buffer) {
-  const bytes = new Uint8Array(buffer);
-  const CHUNK_SIZE = 32768;
-  let binaryString = "";
-  for (let i = 0; i < bytes.length; i += CHUNK_SIZE) {
-    const chunk = bytes.subarray(i, i + CHUNK_SIZE);
-    binaryString += String.fromCharCode.apply(null, chunk);
-  }
-  return btoa(binaryString);
 }
 function fromBase64(base64) {
   const binary = atob(base64);
@@ -2284,22 +2271,6 @@ function appendMissingHeadersDetection(url, headers, headersToInclude) {
       };
     }
   });
-}
-function mapRequestOriginUrl(url, originMap) {
-  const origin = new URL(url, "resolve://").origin;
-  const mappedOrigin = originMap[origin];
-  if (!mappedOrigin) {
-    return url;
-  }
-  if (typeof ngDevMode === "undefined" || ngDevMode) {
-    verifyMappedOrigin(mappedOrigin);
-  }
-  return url.replace(origin, mappedOrigin);
-}
-function verifyMappedOrigin(url) {
-  if (new URL(url, "resolve://").pathname !== "/") {
-    throw new RuntimeError(2804, `Angular detected a URL with a path segment in the value provided for the \`HTTP_TRANSFER_CACHE_ORIGIN_MAP\` token: ${url}. The map should only contain origins without any other segments.`);
-  }
 }
 var httpResource = (() => {
   const jsonFn = makeHttpResourceFn("json");
@@ -2475,609 +2446,45 @@ var HttpResourceImpl = class extends ResourceImpl {
   }
 };
 
-// node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs
-var Meta = class _Meta {
-  _doc;
-  _dom;
-  constructor(_doc) {
-    this._doc = _doc;
-    this._dom = getDOM();
-  }
-  addTag(tag, forceCreation = false) {
-    if (!tag) return null;
-    return this._getOrCreateElement(tag, forceCreation);
-  }
-  addTags(tags, forceCreation = false) {
-    if (!tags) return [];
-    return tags.reduce((result, tag) => {
-      if (tag) {
-        result.push(this._getOrCreateElement(tag, forceCreation));
-      }
-      return result;
-    }, []);
-  }
-  getTag(attrSelector) {
-    if (!attrSelector) return null;
-    return this._doc.querySelector(`meta[${attrSelector}]`) || null;
-  }
-  getTags(attrSelector) {
-    if (!attrSelector) return [];
-    const list = this._doc.querySelectorAll(`meta[${attrSelector}]`);
-    return list ? [].slice.call(list) : [];
-  }
-  updateTag(tag, selector) {
-    if (!tag) return null;
-    selector = selector || this._parseSelector(tag);
-    const meta = this.getTag(selector);
-    if (meta) {
-      return this._setMetaElementAttributes(tag, meta);
-    }
-    return this._getOrCreateElement(tag, true);
-  }
-  removeTag(attrSelector) {
-    this.removeTagElement(this.getTag(attrSelector));
-  }
-  removeTagElement(meta) {
-    if (meta) {
-      this._dom.remove(meta);
-    }
-  }
-  _getOrCreateElement(meta, forceCreation = false) {
-    if (!forceCreation) {
-      const selector = this._parseSelector(meta);
-      const elem = this.getTags(selector).filter((elem2) => this._containsAttributes(meta, elem2))[0];
-      if (elem !== void 0) return elem;
-    }
-    const element = this._dom.createElement("meta");
-    this._setMetaElementAttributes(meta, element);
-    const head = this._doc.getElementsByTagName("head")[0];
-    head.appendChild(element);
-    return element;
-  }
-  _setMetaElementAttributes(tag, el) {
-    Object.keys(tag).forEach((prop) => el.setAttribute(this._getMetaKeyMap(prop), tag[prop]));
-    return el;
-  }
-  _parseSelector(tag) {
-    const attr = tag.name ? "name" : "property";
-    return `${attr}="${tag[attr]}"`;
-  }
-  _containsAttributes(tag, elem) {
-    return Object.keys(tag).every((key) => elem.getAttribute(this._getMetaKeyMap(key)) === tag[key]);
-  }
-  _getMetaKeyMap(prop) {
-    return META_KEYS_MAP[prop] || prop;
-  }
-  static ɵfac = function Meta_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _Meta)(ɵɵinject(DOCUMENT));
-  };
-  static ɵprov = ɵɵdefineInjectable({
-    token: _Meta,
-    factory: _Meta.ɵfac,
-    providedIn: "root"
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Meta, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }], null);
-})();
-var META_KEYS_MAP = {
-  httpEquiv: "http-equiv"
-};
-var Title = class _Title {
-  _doc;
-  constructor(_doc) {
-    this._doc = _doc;
-  }
-  getTitle() {
-    return this._doc.title;
-  }
-  setTitle(newTitle) {
-    this._doc.title = newTitle || "";
-  }
-  static ɵfac = function Title_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _Title)(ɵɵinject(DOCUMENT));
-  };
-  static ɵprov = ɵɵdefineInjectable({
-    token: _Title,
-    factory: _Title.ɵfac,
-    providedIn: "root"
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Title, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }], null);
-})();
-function exportNgVar(name, value) {
-  if (typeof COMPILED === "undefined" || !COMPILED) {
-    const ng = _global["ng"] = _global["ng"] || {};
-    ng[name] = value;
-  }
-}
-var ChangeDetectionPerfRecord = class {
-  msPerTick;
-  numTicks;
-  constructor(msPerTick, numTicks) {
-    this.msPerTick = msPerTick;
-    this.numTicks = numTicks;
-  }
-};
-var AngularProfiler = class {
-  appRef;
-  constructor(ref) {
-    this.appRef = ref.injector.get(ApplicationRef);
-  }
-  timeChangeDetection(config) {
-    const record = config && config["record"];
-    const profileName = "Change Detection";
-    if (record && "profile" in console && typeof console.profile === "function") {
-      console.profile(profileName);
-    }
-    const start = performance.now();
-    let numTicks = 0;
-    while (numTicks < 5 || performance.now() - start < 500) {
-      this.appRef.tick();
-      numTicks++;
-    }
-    const end = performance.now();
-    if (record && "profileEnd" in console && typeof console.profileEnd === "function") {
-      console.profileEnd(profileName);
-    }
-    const msPerTick = (end - start) / numTicks;
-    console.log(`ran ${numTicks} change detection cycles`);
-    console.log(`${msPerTick.toFixed(2)} ms per check`);
-    return new ChangeDetectionPerfRecord(msPerTick, numTicks);
-  }
-};
-var PROFILER_GLOBAL_NAME = "profiler";
-function enableDebugTools(ref) {
-  exportNgVar(PROFILER_GLOBAL_NAME, new AngularProfiler(ref));
-  return ref;
-}
-function disableDebugTools() {
-  exportNgVar(PROFILER_GLOBAL_NAME, null);
-}
-var By = class {
-  static all() {
-    return () => true;
-  }
-  static css(selector) {
-    return (debugElement) => {
-      return debugElement.nativeElement != null ? elementMatches(debugElement.nativeElement, selector) : false;
-    };
-  }
-  static directive(type) {
-    return (debugNode) => debugNode.providerTokens.indexOf(type) !== -1;
-  }
-};
-function elementMatches(n, selector) {
-  if (getDOM().isElementNode(n)) {
-    return n.matches && n.matches(selector) || n.msMatchesSelector && n.msMatchesSelector(selector) || n.webkitMatchesSelector && n.webkitMatchesSelector(selector);
-  }
-  return false;
-}
-var EVENT_NAMES = {
-  "pan": true,
-  "panstart": true,
-  "panmove": true,
-  "panend": true,
-  "pancancel": true,
-  "panleft": true,
-  "panright": true,
-  "panup": true,
-  "pandown": true,
-  "pinch": true,
-  "pinchstart": true,
-  "pinchmove": true,
-  "pinchend": true,
-  "pinchcancel": true,
-  "pinchin": true,
-  "pinchout": true,
-  "press": true,
-  "pressup": true,
-  "rotate": true,
-  "rotatestart": true,
-  "rotatemove": true,
-  "rotateend": true,
-  "rotatecancel": true,
-  "swipe": true,
-  "swipeleft": true,
-  "swiperight": true,
-  "swipeup": true,
-  "swipedown": true,
-  "tap": true,
-  "doubletap": true
-};
-var HAMMER_GESTURE_CONFIG = new InjectionToken(typeof ngDevMode === "undefined" || ngDevMode ? "HammerGestureConfig" : "");
-var HAMMER_LOADER = new InjectionToken(typeof ngDevMode === "undefined" || ngDevMode ? "HammerLoader" : "");
-var HammerGestureConfig = class _HammerGestureConfig {
-  events = [];
-  overrides = {};
-  options;
-  buildHammer(element) {
-    const mc = new Hammer(element, this.options);
-    mc.get("pinch").set({
-      enable: true
-    });
-    mc.get("rotate").set({
-      enable: true
-    });
-    for (const eventName in this.overrides) {
-      mc.get(eventName).set(this.overrides[eventName]);
-    }
-    return mc;
-  }
-  static ɵfac = function HammerGestureConfig_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _HammerGestureConfig)();
-  };
-  static ɵprov = ɵɵdefineInjectable({
-    token: _HammerGestureConfig,
-    factory: _HammerGestureConfig.ɵfac
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HammerGestureConfig, [{
-    type: Injectable
-  }], null, null);
-})();
-var HammerGesturesPlugin = class _HammerGesturesPlugin extends EventManagerPlugin {
-  _config;
-  _injector;
-  loader;
-  _loaderPromise = null;
-  constructor(doc, _config, _injector, loader) {
-    super(doc);
-    this._config = _config;
-    this._injector = _injector;
-    this.loader = loader;
-  }
-  supports(eventName) {
-    if (!EVENT_NAMES.hasOwnProperty(eventName.toLowerCase()) && !this.isCustomEvent(eventName)) {
-      return false;
-    }
-    if (!window.Hammer && !this.loader) {
-      if (typeof ngDevMode === "undefined" || ngDevMode) {
-        const _console = this._injector.get(Console);
-        _console.warn(`The "${eventName}" event cannot be bound because Hammer.JS is not loaded and no custom loader has been specified.`);
-      }
-      return false;
-    }
-    return true;
-  }
-  addEventListener(element, eventName, handler) {
-    const zone = this.manager.getZone();
-    eventName = eventName.toLowerCase();
-    if (!window.Hammer && this.loader) {
-      this._loaderPromise = this._loaderPromise || zone.runOutsideAngular(() => this.loader());
-      let cancelRegistration = false;
-      let deregister = () => {
-        cancelRegistration = true;
-      };
-      zone.runOutsideAngular(() => this._loaderPromise.then(() => {
-        if (!window.Hammer) {
-          if (typeof ngDevMode === "undefined" || ngDevMode) {
-            const _console = this._injector.get(Console);
-            _console.warn(`The custom HAMMER_LOADER completed, but Hammer.JS is not present.`);
-          }
-          deregister = () => {
-          };
-          return;
-        }
-        if (!cancelRegistration) {
-          deregister = this.addEventListener(element, eventName, handler);
-        }
-      }).catch(() => {
-        if (typeof ngDevMode === "undefined" || ngDevMode) {
-          const _console = this._injector.get(Console);
-          _console.warn(`The "${eventName}" event cannot be bound because the custom Hammer.JS loader failed.`);
-        }
-        deregister = () => {
-        };
-      }));
-      return () => {
-        deregister();
-      };
-    }
-    return zone.runOutsideAngular(() => {
-      const mc = this._config.buildHammer(element);
-      const callback = function(eventObj) {
-        zone.runGuarded(function() {
-          handler(eventObj);
-        });
-      };
-      mc.on(eventName, callback);
-      return () => {
-        mc.off(eventName, callback);
-        if (typeof mc.destroy === "function") {
-          mc.destroy();
-        }
-      };
-    });
-  }
-  isCustomEvent(eventName) {
-    return this._config.events.indexOf(eventName) > -1;
-  }
-  static ɵfac = function HammerGesturesPlugin_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _HammerGesturesPlugin)(ɵɵinject(DOCUMENT), ɵɵinject(HAMMER_GESTURE_CONFIG), ɵɵinject(Injector), ɵɵinject(HAMMER_LOADER, 8));
-  };
-  static ɵprov = ɵɵdefineInjectable({
-    token: _HammerGesturesPlugin,
-    factory: _HammerGesturesPlugin.ɵfac
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HammerGesturesPlugin, [{
-    type: Injectable
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }, {
-    type: HammerGestureConfig,
-    decorators: [{
-      type: Inject,
-      args: [HAMMER_GESTURE_CONFIG]
-    }]
-  }, {
-    type: Injector
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Optional
-    }, {
-      type: Inject,
-      args: [HAMMER_LOADER]
-    }]
-  }], null);
-})();
-var HammerModule = class _HammerModule {
-  static ɵfac = function HammerModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _HammerModule)();
-  };
-  static ɵmod = ɵɵdefineNgModule({
-    type: _HammerModule
-  });
-  static ɵinj = ɵɵdefineInjector({
-    providers: [{
-      provide: EVENT_MANAGER_PLUGINS,
-      useClass: HammerGesturesPlugin,
-      multi: true,
-      deps: [DOCUMENT, HAMMER_GESTURE_CONFIG, Injector, [new Optional(), HAMMER_LOADER]]
-    }, {
-      provide: HAMMER_GESTURE_CONFIG,
-      useClass: HammerGestureConfig
-    }]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HammerModule, [{
-    type: NgModule,
-    args: [{
-      providers: [{
-        provide: EVENT_MANAGER_PLUGINS,
-        useClass: HammerGesturesPlugin,
-        multi: true,
-        deps: [DOCUMENT, HAMMER_GESTURE_CONFIG, Injector, [new Optional(), HAMMER_LOADER]]
-      }, {
-        provide: HAMMER_GESTURE_CONFIG,
-        useClass: HammerGestureConfig
-      }]
-    }]
-  }], null, null);
-})();
-var DomSanitizer = class _DomSanitizer {
-  static ɵfac = function DomSanitizer_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _DomSanitizer)();
-  };
-  static ɵprov = ɵɵdefineInjectable({
-    token: _DomSanitizer,
-    factory: function DomSanitizer_Factory(__ngFactoryType__) {
-      let __ngConditionalFactory__ = null;
-      if (__ngFactoryType__) {
-        __ngConditionalFactory__ = new (__ngFactoryType__ || _DomSanitizer)();
-      } else {
-        __ngConditionalFactory__ = ɵɵinject(DomSanitizerImpl);
-      }
-      return __ngConditionalFactory__;
-    },
-    providedIn: "root"
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DomSanitizer, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root",
-      useExisting: forwardRef(() => DomSanitizerImpl)
-    }]
-  }], null, null);
-})();
-var DomSanitizerImpl = class _DomSanitizerImpl extends DomSanitizer {
-  _doc;
-  constructor(_doc) {
-    super();
-    this._doc = _doc;
-  }
-  sanitize(ctx, value) {
-    if (value == null) return null;
-    switch (ctx) {
-      case SecurityContext.NONE:
-        return value;
-      case SecurityContext.HTML:
-        if (allowSanitizationBypassAndThrow(value, "HTML")) {
-          return unwrapSafeValue(value);
-        }
-        return _sanitizeHtml(this._doc, String(value)).toString();
-      case SecurityContext.STYLE:
-        if (allowSanitizationBypassAndThrow(value, "Style")) {
-          return unwrapSafeValue(value);
-        }
-        return value;
-      case SecurityContext.SCRIPT:
-        if (allowSanitizationBypassAndThrow(value, "Script")) {
-          return unwrapSafeValue(value);
-        }
-        throw new RuntimeError(5200, (typeof ngDevMode === "undefined" || ngDevMode) && "unsafe value used in a script context");
-      case SecurityContext.URL:
-        if (allowSanitizationBypassAndThrow(value, "URL")) {
-          return unwrapSafeValue(value);
-        }
-        return _sanitizeUrl(String(value));
-      case SecurityContext.RESOURCE_URL:
-        if (allowSanitizationBypassAndThrow(value, "ResourceURL")) {
-          return unwrapSafeValue(value);
-        }
-        throw new RuntimeError(5201, (typeof ngDevMode === "undefined" || ngDevMode) && `unsafe value used in a resource URL context (see ${XSS_SECURITY_URL})`);
-      default:
-        throw new RuntimeError(5202, (typeof ngDevMode === "undefined" || ngDevMode) && `Unexpected SecurityContext ${ctx} (see ${XSS_SECURITY_URL})`);
-    }
-  }
-  bypassSecurityTrustHtml(value) {
-    return bypassSanitizationTrustHtml(value);
-  }
-  bypassSecurityTrustStyle(value) {
-    return bypassSanitizationTrustStyle(value);
-  }
-  bypassSecurityTrustScript(value) {
-    return bypassSanitizationTrustScript(value);
-  }
-  bypassSecurityTrustUrl(value) {
-    return bypassSanitizationTrustUrl(value);
-  }
-  bypassSecurityTrustResourceUrl(value) {
-    return bypassSanitizationTrustResourceUrl(value);
-  }
-  static ɵfac = function DomSanitizerImpl_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _DomSanitizerImpl)(ɵɵinject(DOCUMENT));
-  };
-  static ɵprov = ɵɵdefineInjectable({
-    token: _DomSanitizerImpl,
-    factory: _DomSanitizerImpl.ɵfac,
-    providedIn: "root"
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DomSanitizerImpl, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }], null);
-})();
-var HydrationFeatureKind;
-(function(HydrationFeatureKind2) {
-  HydrationFeatureKind2[HydrationFeatureKind2["NoHttpTransferCache"] = 0] = "NoHttpTransferCache";
-  HydrationFeatureKind2[HydrationFeatureKind2["HttpTransferCacheOptions"] = 1] = "HttpTransferCacheOptions";
-  HydrationFeatureKind2[HydrationFeatureKind2["I18nSupport"] = 2] = "I18nSupport";
-  HydrationFeatureKind2[HydrationFeatureKind2["EventReplay"] = 3] = "EventReplay";
-  HydrationFeatureKind2[HydrationFeatureKind2["IncrementalHydration"] = 4] = "IncrementalHydration";
-})(HydrationFeatureKind || (HydrationFeatureKind = {}));
-function hydrationFeature(ɵkind, ɵproviders = [], ɵoptions = {}) {
-  return {
-    ɵkind,
-    ɵproviders
-  };
-}
-function withNoHttpTransferCache() {
-  return hydrationFeature(HydrationFeatureKind.NoHttpTransferCache);
-}
-function withHttpTransferCacheOptions(options) {
-  return hydrationFeature(HydrationFeatureKind.HttpTransferCacheOptions, withHttpTransferCache(options));
-}
-function withI18nSupport2() {
-  return hydrationFeature(HydrationFeatureKind.I18nSupport, withI18nSupport());
-}
-function withEventReplay2() {
-  return hydrationFeature(HydrationFeatureKind.EventReplay, withEventReplay());
-}
-function withIncrementalHydration2() {
-  return hydrationFeature(HydrationFeatureKind.IncrementalHydration, withIncrementalHydration());
-}
-function provideEnabledBlockingInitialNavigationDetector() {
-  return [{
-    provide: ENVIRONMENT_INITIALIZER,
-    useValue: () => {
-      const isEnabledBlockingInitialNavigation = inject(IS_ENABLED_BLOCKING_INITIAL_NAVIGATION, {
-        optional: true
-      });
-      if (isEnabledBlockingInitialNavigation) {
-        const console2 = inject(Console);
-        const message = formatRuntimeError(5001, "Configuration error: found both hydration and enabledBlocking initial navigation in the same application, which is a contradiction.");
-        console2.warn(message);
-      }
-    },
-    multi: true
-  }];
-}
-function provideClientHydration(...features) {
-  const providers = [];
-  const featuresKind = /* @__PURE__ */ new Set();
-  for (const {
-    ɵproviders,
-    ɵkind
-  } of features) {
-    featuresKind.add(ɵkind);
-    if (ɵproviders.length) {
-      providers.push(ɵproviders);
-    }
-  }
-  const hasHttpTransferCacheOptions = featuresKind.has(HydrationFeatureKind.HttpTransferCacheOptions);
-  if (typeof ngDevMode !== "undefined" && ngDevMode && featuresKind.has(HydrationFeatureKind.NoHttpTransferCache) && hasHttpTransferCacheOptions) {
-    throw new RuntimeError(5001, "Configuration error: found both withHttpTransferCacheOptions() and withNoHttpTransferCache() in the same call to provideClientHydration(), which is a contradiction.");
-  }
-  return makeEnvironmentProviders([typeof ngDevMode !== "undefined" && ngDevMode ? provideEnabledBlockingInitialNavigationDetector() : [], typeof ngDevMode !== "undefined" && ngDevMode ? provideStabilityDebugging() : [], withDomHydration(), featuresKind.has(HydrationFeatureKind.NoHttpTransferCache) || hasHttpTransferCacheOptions ? [] : withHttpTransferCache({}), providers]);
-}
-var VERSION = new Version("21.2.7");
-
 export {
+  HttpHeaders,
+  HttpContextToken,
+  HttpContext,
+  HttpUrlEncodingCodec,
+  HttpParams,
+  HttpRequest,
+  HttpEventType,
+  HttpResponseBase,
+  HttpHeaderResponse,
+  HttpResponse,
+  HttpErrorResponse,
+  HttpStatusCode,
+  FetchBackend,
+  HttpXhrBackend,
+  HTTP_INTERCEPTORS,
   HTTP_ROOT_INTERCEPTOR_FNS,
-  Meta,
-  Title,
-  enableDebugTools,
-  disableDebugTools,
-  By,
-  HAMMER_GESTURE_CONFIG,
-  HAMMER_LOADER,
-  HammerGestureConfig,
-  HammerGesturesPlugin,
-  HammerModule,
-  DomSanitizer,
-  DomSanitizerImpl,
-  HydrationFeatureKind,
-  withNoHttpTransferCache,
-  withHttpTransferCacheOptions,
-  withI18nSupport2 as withI18nSupport,
-  withEventReplay2 as withEventReplay,
-  withIncrementalHydration2 as withIncrementalHydration,
-  provideClientHydration,
-  VERSION
+  REQUESTS_CONTRIBUTE_TO_STABILITY,
+  HttpBackend,
+  HttpInterceptorHandler,
+  HttpHandler,
+  HttpClient,
+  JsonpClientBackend,
+  JsonpInterceptor,
+  HttpXsrfTokenExtractor,
+  HttpFeatureKind,
+  provideHttpClient,
+  withInterceptors,
+  withInterceptorsFromDi,
+  withXsrfConfiguration,
+  withNoXsrfProtection,
+  withJsonpSupport,
+  withRequestsMadeViaParent,
+  withFetch,
+  HttpClientXsrfModule,
+  HttpClientModule,
+  HttpClientJsonpModule,
+  HTTP_TRANSFER_CACHE_ORIGIN_MAP,
+  withHttpTransferCache,
+  httpResource
 };
-//# sourceMappingURL=chunk-VFGI5GMQ.js.map
+//# sourceMappingURL=chunk-DTFAYNK5.js.map

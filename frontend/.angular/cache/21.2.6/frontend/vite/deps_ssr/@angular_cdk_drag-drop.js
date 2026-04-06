@@ -1,7 +1,8 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   isPlatformBrowser
-} from "./chunk-EBMP5QM6.js";
+} from "./chunk-45YYJ3M5.js";
+import "./chunk-AM7GV4M5.js";
 import {
   APP_ID,
   ApplicationRef,

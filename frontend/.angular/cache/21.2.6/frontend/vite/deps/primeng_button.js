@@ -2,11 +2,11 @@ import {
   BaseStyle,
   PrimeNG,
   base
-} from "./chunk-MV5E37VP.js";
+} from "./chunk-JZCPQJHE.js";
 import {
   PrimeTemplate,
   SharedModule
-} from "./chunk-JRTRE4QQ.js";
+} from "./chunk-PF4KLHFI.js";
 import {
   N,
   S
@@ -44,7 +44,8 @@ import {
   NgTemplateOutlet,
   isPlatformBrowser,
   isPlatformServer
-} from "./chunk-5Q2TLMFT.js";
+} from "./chunk-MRYVPY7S.js";
+import "./chunk-I4IPFPSQ.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,

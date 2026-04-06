@@ -1,0 +1,26 @@
+# Dependencies — bắt buộc để VS Code/Git không đếm node_modules
+node_modules/
+
+# Build
+dist/
+tmp/
+out-tsc/
+.angular/cache/
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Logs & OS
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Tests
+coverage/

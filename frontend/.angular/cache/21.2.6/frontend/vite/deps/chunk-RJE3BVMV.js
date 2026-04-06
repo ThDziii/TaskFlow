@@ -1,12 +1,14 @@
 import {
   CommonModule,
+  PLATFORM_BROWSER_ID
+} from "./chunk-MRYVPY7S.js";
+import {
   DomAdapter,
-  PLATFORM_BROWSER_ID,
   XhrFactory,
   getDOM,
   parseCookieValue,
   setRootDomAdapter
-} from "./chunk-5Q2TLMFT.js";
+} from "./chunk-I4IPFPSQ.js";
 import {
   APP_ID,
   ApplicationModule,
@@ -1114,4 +1116,4 @@ export {
   platformBrowser,
   BrowserModule
 };
-//# sourceMappingURL=chunk-HBMII6SW.js.map
+//# sourceMappingURL=chunk-RJE3BVMV.js.map

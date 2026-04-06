@@ -1,20 +1,19 @@
-import { createRequire } from 'module';const require = createRequire(import.meta.url);
-import {
-  CommonModule
-} from "./chunk-EBMP5QM6.js";
 import {
   X,
   k,
   p
-} from "./chunk-RJHNAMOJ.js";
+} from "./chunk-ASGHACTB.js";
+import {
+  CommonModule
+} from "./chunk-MRYVPY7S.js";
 import {
   Component,
   Directive,
   Injectable,
   Input,
   NgModule,
+  Subject,
   TemplateRef,
-  require_cjs,
   setClassMetadata,
   ɵɵdefineComponent,
   ɵɵdefineDirective,
@@ -24,13 +23,9 @@ import {
   ɵɵdirectiveInject,
   ɵɵprojection,
   ɵɵprojectionDef
-} from "./chunk-3X3WARFH.js";
-import {
-  __toESM
-} from "./chunk-6DU2HRTW.js";
+} from "./chunk-JXSAXOE4.js";
 
 // node_modules/primeng/fesm2022/primeng-api.mjs
-var import_rxjs = __toESM(require_cjs(), 1);
 var _c0 = ["*"];
 var ConfirmEventType;
 (function(ConfirmEventType2) {
@@ -39,8 +34,8 @@ var ConfirmEventType;
   ConfirmEventType2[ConfirmEventType2["CANCEL"] = 2] = "CANCEL";
 })(ConfirmEventType || (ConfirmEventType = {}));
 var ConfirmationService = class _ConfirmationService {
-  requireConfirmationSource = new import_rxjs.Subject();
-  acceptConfirmationSource = new import_rxjs.Subject();
+  requireConfirmationSource = new Subject();
+  acceptConfirmationSource = new Subject();
   requireConfirmation$ = this.requireConfirmationSource.asObservable();
   accept = this.acceptConfirmationSource.asObservable();
   /**
@@ -81,7 +76,7 @@ var ConfirmationService = class _ConfirmationService {
   }], null, null);
 })();
 var ContextMenuService = class _ContextMenuService {
-  activeItemKeyChange = new import_rxjs.Subject();
+  activeItemKeyChange = new Subject();
   activeItemKeyChange$ = this.activeItemKeyChange.asObservable();
   activeItemKey;
   changeKey(key) {
@@ -346,8 +341,8 @@ var FilterService = class _FilterService {
   }], null, null);
 })();
 var MessageService = class _MessageService {
-  messageSource = new import_rxjs.Subject();
-  clearSource = new import_rxjs.Subject();
+  messageSource = new Subject();
+  clearSource = new Subject();
   messageObserver = this.messageSource.asObservable();
   clearObserver = this.clearSource.asObservable();
   /**
@@ -392,8 +387,8 @@ var MessageService = class _MessageService {
   }], null, null);
 })();
 var OverlayService = class _OverlayService {
-  clickSource = new import_rxjs.Subject();
-  parentDragSource = new import_rxjs.Subject();
+  clickSource = new Subject();
+  parentDragSource = new Subject();
   clickObservable = this.clickSource.asObservable();
   parentDragObservable = this.parentDragSource.asObservable();
   add(event) {
@@ -910,8 +905,8 @@ var TranslationKeys = class {
   static BROWSE_FILES = "browseFiles";
 };
 var TreeDragDropService = class _TreeDragDropService {
-  dragStartSource = new import_rxjs.Subject();
-  dragStopSource = new import_rxjs.Subject();
+  dragStartSource = new Subject();
+  dragStopSource = new Subject();
   dragStart$ = this.dragStartSource.asObservable();
   dragStop$ = this.dragStopSource.asObservable();
   startDrag(event) {
@@ -951,4 +946,4 @@ export {
   TranslationKeys,
   TreeDragDropService
 };
-//# sourceMappingURL=chunk-LAUGBD3D.js.map
+//# sourceMappingURL=chunk-PF4KLHFI.js.map

@@ -1,13 +1,15 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   CommonModule,
+  PLATFORM_BROWSER_ID
+} from "./chunk-45YYJ3M5.js";
+import {
   DomAdapter,
-  PLATFORM_BROWSER_ID,
   XhrFactory,
   getDOM,
   parseCookieValue,
   setRootDomAdapter
-} from "./chunk-EBMP5QM6.js";
+} from "./chunk-AM7GV4M5.js";
 import {
   APP_ID,
   ApplicationModule,
@@ -1116,4 +1118,4 @@ export {
   platformBrowser,
   BrowserModule
 };
-//# sourceMappingURL=chunk-3MGI45X7.js.map
+//# sourceMappingURL=chunk-VJ3NQKTF.js.map
